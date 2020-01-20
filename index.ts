@@ -40,7 +40,7 @@ class GuiState {
 
     constructor() {
         this.offsetX = 0.01;
-        this.offsetY = 0.01;
+        this.offsetY = 10.63;
         this.update = true;
         this.t = 2.0;
         this.top = 1000;
@@ -52,13 +52,14 @@ const main = () => {
     const gui = new dat.GUI();
 
     gui.add(guiState, 'offsetX', -1, 1);
-    gui.add(guiState, 'offsetY', 0, 100);
+    gui.add(guiState, 'offsetY', 0.0, 100.0);
     gui.add(guiState, 'update');
     gui.add(guiState, 't', 0.01, 200);
     gui.add(guiState, 'top', 10, 10000).step(1.0);
 
     const canvas = document.querySelector('#glcanvas') as HTMLCanvasElement;
     const gl = canvas.getContext('webgl');
+    gl.viewport(0, 0, 1000, 1000);
   
     // If we don't have a GL context, give up now
   
