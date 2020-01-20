@@ -13,17 +13,18 @@ class State {
     constructor() {
         this.offsetX = 0.1;
         this.offsetY = 0.1;
-        this.t = 0.0;
         this.top = 1000;
+        this.t = 1.2;
     }
 }
 
 const update = (state: State, guiState: GuiState) : State => {
-    if (!guiState.update) {
-        return state;
-    }
 
-    state.t = guiState.t;
+    state.t += 0.001;
+    if (state.t > 4.0) {
+      state.t = 0.01;
+    }
+  
     state.offsetX = guiState.offsetX;
     state.offsetY = guiState.offsetY;
     state.top = guiState.top
@@ -35,14 +36,11 @@ class GuiState {
     offsetX: number;
     offsetY: number;
     update: boolean;
-    t: number;
     top: number;
 
     constructor() {
         this.offsetX = 0.01;
         this.offsetY = 10.63;
-        this.update = true;
-        this.t = 2.0;
         this.top = 1000;
     }
 }
@@ -53,8 +51,6 @@ const main = () => {
 
     gui.add(guiState, 'offsetX', -1, 1);
     gui.add(guiState, 'offsetY', 0.0, 100.0);
-    gui.add(guiState, 'update');
-    gui.add(guiState, 't', 0.01, 200);
     gui.add(guiState, 'top', 10, 10000).step(1.0);
 
     const canvas = document.querySelector('#glcanvas') as HTMLCanvasElement;
