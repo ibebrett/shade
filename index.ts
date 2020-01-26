@@ -17,7 +17,7 @@ class State {
 const update = (state: State, guiState: GuiState) : State => {
     state.t += 0.001;
     if (state.t > 4.0) {
-      state.t = 0.5;
+      state.t = 1.2;
     }
   
     state.zoom = guiState.zoom;
