@@ -4,7 +4,7 @@ uniform float t;
 uniform float zoom;
 uniform vec2 center;
 
-vec2 complexPow(highp vec2 a, float p) {
+vec2 complexPow(mediump vec2 a, float p) {
     float r = sqrt(a.x*a.x + a.y*a.y);
     float angle = atan(a.y / a.x);
 
@@ -16,12 +16,12 @@ vec3 cm(float c, float range) {
     return vec3(pow(c / range, 1.0 / gamma), 0.0, 0.0);
 }
 
-vec3 func(highp vec2 pos) {
+vec3 func(mediump vec2 pos) {
     mediump vec2 s = vec2(0.0, 0.0);
-    
-    int highest = 20;
+
+    int highest = 100;
     bool found = false;
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 100; ++i) {
         // complex square and add
         s = complexPow(s, t) + pos;
         
@@ -31,7 +31,7 @@ vec3 func(highp vec2 pos) {
         }
     }
 
-    return cm(float(highest), 20.0);
+    return cm(float(highest), 100.0);
 }
 
 void main(void) {
@@ -40,4 +40,5 @@ void main(void) {
             gl_FragCoord.xy - center)*vec2(1.0 / zoom, 1.0 / zoom)
 
     );
+    gl_FragColor.w = 1.0;
 }
