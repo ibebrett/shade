@@ -1,11 +1,8 @@
 precision highp float;
 
-varying mediump vec4 vColor;
-
 uniform float t;
-uniform highp vec2 offset;
-uniform int top;
-
+uniform float zoom;
+uniform vec2 center;
 
 vec2 complexPow(highp vec2 a, float p) {
     float r = sqrt(a.x*a.x + a.y*a.y);
@@ -22,24 +19,25 @@ vec3 cm(float c, float range) {
 vec3 func(highp vec2 pos) {
     mediump vec2 s = vec2(0.0, 0.0);
     
-    int highest = top;
+    int highest = 20;
     bool found = false;
     for (int i = 0; i < 20; ++i) {
         // complex square and add
         s = complexPow(s, t) + pos;
         
-        if (((s.x*s.x + s.y*s.y) > offset.y) && !found) {
+        if (((s.x*s.x + s.y*s.y) > 200.0) && !found) {
             found = true;
             highest = i;
         }
     }
-    if (highest > top) {
-        highest = top;
-    }
 
-    return cm(float(highest), float(top));
+    return cm(float(highest), 20.0);
 }
 
 void main(void) {
-    gl_FragColor.xyz = func(vec2(gl_FragCoord.xy + vec2(-100.0, -100.0))*vec2(offset.x, offset.x));
+    gl_FragColor.xyz = func(
+        vec2(
+            gl_FragCoord.xy - center)*vec2(1.0 / zoom, 1.0 / zoom)
+
+    );
 }
