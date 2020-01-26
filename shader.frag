@@ -24,7 +24,7 @@ vec3 func(highp vec2 pos) {
     
     int highest = top;
     bool found = false;
-    for (int i = 0; i < 10000; ++i) {
+    for (int i = 0; i < 20; ++i) {
         // complex square and add
         s = complexPow(s, t) + pos;
         

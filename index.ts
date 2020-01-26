@@ -22,7 +22,7 @@ const update = (state: State, guiState: GuiState) : State => {
 
     state.t += 0.001;
     if (state.t > 4.0) {
-      state.t = 0.01;
+      state.t = 0.1;
     }
   
     state.offsetX = guiState.offsetX;
