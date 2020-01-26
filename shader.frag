@@ -1,4 +1,4 @@
-precision highp float;
+precision mediump float;
 
 uniform float t;
 uniform float zoom;
