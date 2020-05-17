@@ -1,16 +1,21 @@
 import fsSource from './shader.frag';
 import vsSource from './shader.vert';
 
+import * as mobilenet from '@tensorflow-models/mobilenet';
+
+
 import * as dat from 'dat.gui';
 
 
 class State {
     zoom: number;
     t: number;
+    model: boolean;
 
     constructor() {
         this.zoom = 1.0;
         this.t = 1.2;
+        this.boolean = false;
     }
 }
 
@@ -21,26 +26,31 @@ const update = (state: State, guiState: GuiState) : State => {
     }
   
     state.zoom = guiState.zoom;
+    state.model = guiState.model;
 
     return state;
 }
 
 class GuiState {
     zoom: number;
+    model: boolean;
 
     constructor() {
         this.zoom = 300.0;
+        this.model = false;
     }
 }
 
-const main = () => {
+const main = async () => {
     let guiState = new GuiState();
     const gui = new dat.GUI();
 
     gui.add(guiState, 'zoom', 0.5, 1000.0);
+    gui.add(guiState, 'model', false);
 
     const canvas = document.querySelector('#canvas') as HTMLCanvasElement;
     const gl = canvas.getContext('webgl');
+    const predictionEl = document.getElementById('prediction') as HTMLHeadingElement;
 
     const shaderProgram = initShaderProgram(gl, vsSource, fsSource);
   
@@ -59,15 +69,22 @@ const main = () => {
     const buffers = initBuffers(gl);
 
     let state = new State();
+    
+    const model = await mobilenet.load();
 
-    const drawLoop = () => {
+    const drawLoop = async () => {
         state = update(state, guiState);
 
         const dim = resize(canvas);
         draw(gl, programInfo, buffers, state, dim);
         requestAnimationFrame(drawLoop);
+
+        const predictions = await model.classify(canvas);
+        predictionEl.innerText = predictions[0].className;
+        predictionEl.style.visibility = state.model ? "visible" : "hidden";
     }
 
+    
     drawLoop();
   }
   

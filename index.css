@@ -7,3 +7,10 @@ body {
     height: 100%;
     display: block;
 }
+#model {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    color: white;
+    visibility: hidden;
+}
