@@ -15,7 +15,7 @@ class State {
     constructor() {
         this.zoom = 1.0;
         this.t = 1.2;
-        this.boolean = false;
+        this.model = false;
     }
 }
 
